@@ -61,12 +61,12 @@ SELECT * FROM testing_system_assignment2.Group_Account;
 INSERT INTO 	Group_Account	(Group_ID	,Account_ID	,Join_Date)
 VALUES                          (1			,1			,"2020/01/02"),
 								(2			,2			,"2020/02/13"),
-								(3			,1			,"2020/03/23"),
+								(3			,3			,"2020/03/23"),
 								(4			,4			,"2020/04/02"),
-								(5			,1			,"2020/05/13"),
+								(5			,5			,"2020/05/13"),
 								(6			,6			,"2020/06/18"),
 								(7			,7			,"2019/11/08"),
-								(8			,5			,"2019/11/15"),
+								(8			,8			,"2019/11/15"),
 								(9			,9			,"2019/10/02"),
 								(10			,10			,"2019/12/26");
  
@@ -95,26 +95,26 @@ INSERT INTO 		Question	(Content						,Category_ID	,Type_ID	,Creator_ID	,Create_D
 VALUES                      	("Câu hỏi về Lap Trinh JAVA"	,2				,1			,1			,"2020/01/02"),
 								("Câu hỏi về Lap Trinh C"		,2				,1			,2			,"2020/01/02"),
 								("Câu hỏi về Lap Trinh C++"		,3				,2			,3			,"2020/01/02"),
-								(" Lap Trinh PYTHON"	,3				,1			,4			,"2020/01/02"),
-								(" Trinh MOBILE"	,5				,2			,5			,"2020/01/02"),
+								("Câu hỏi về Lap Trinh PYTHON"	,3				,1			,4			,"2020/01/02"),
+								("Câu hỏi về Lap Trinh MOBILE"	,5				,2			,5			,"2020/01/02"),
 								("Câu hỏi về Lap Trinh LABVIEW"	,1				,2			,6			,"2020/01/02"),
 								("Câu hỏi về Lap Trinh PASSCAL"	,1				,1			,7			,"2020/01/02"),
 								("Câu hỏi về Lap Trinh WEB"		,8				,2			,8			,"2020/01/02"),
-								(" Trinh MY SQL"	,9				,1			,9			,"2020/01/02");
+								("Câu hỏi về Lap Trinh MY SQL"	,9				,1			,9			,"2020/01/02");
 
 -- Thêm dữ liệu vào bảng Answer  
 SELECT * FROM testing_system_assignment2.Answer;                                       
 INSERT INTO 		Answer	(	Content					,	Question_ID		,IsCorrect	)
-VALUES                      (	"Câu tra loi so 1"		,	2				,1			),
-							(	"Câu tra loi so 2"		,	2				,3			),
+VALUES                      (	"Câu tra loi so 1"		,	1				,1			),
+							(	"Câu tra loi so 2"		,	3				,3			),
 							(	"Câu tra loi so 3"		,	4				,1			),
 							(	"Câu tra loi so 4"		,	4				,4			),
 							(	"Câu tra loi so 5"		,	6				,1			),
-							(	"Câu tra loi so 6"		,	4				,3			),
-							(	"Câu tra loi so 7"		,	2				,5			),
+							(	"Câu tra loi so 6"		,	6				,3			),
+							(	"Câu tra loi so 7"		,	1				,5			),
 							(	"Câu tra loi so 8"		,	2				,6			),
 							(	"Câu tra loi so 9"		,	4				,8			),
-							(	"Câu tra loi so 10"		,	2				,7			);
+							(	"Câu tra loi so 10"		,	5				,7			);
 
 -- Thêm dữ liệu vào bảng Exam  
 SELECT * FROM testing_system_assignment2.Exam;                                       
