@@ -36,8 +36,8 @@ BEGIN
     END IF;
 END $$
 DELIMITER ; 
-INSERT INTO `Account`	(Email							,User_Name		,Full_Name					,Department_ID	,Position_ID	,Creat_Date)
-VALUES                  ("nguyenthanhtung@gmail.com"	,"nttung"		,"Nguyen Thanh Tung"		,4				,1			,"2019/11/02");
+INSERT INTO `Account`	(Email							,User_Name		,Full_Name					,Gender, Department_ID	,Position_ID	,Creat_Date)
+VALUES                  ("nguyenthanhtung@gmail.com"	,"nttung"		,"Nguyen Thanh Tung"		,"M"		,4				,1			,"2019/11/02");
 
 -- Question 3: Cấu hình 1 group có nhiều nhất là 5 user
 DROP TRIGGER IF EXISTS  group_with_max_5user;
@@ -128,8 +128,8 @@ BEGIN
 END $$
 DELIMITER ;
 
-INSERT INTO `Account`	(Email						,User_Name		,Full_Name			,Position_ID	,Creat_Date)
-VALUES                  ("leminhhai@gmail.com"		,"lmhai"		,"Le Minh Hai"		,1				,"2012/11/02");
+INSERT INTO `Account`	(Email						,User_Name		,Full_Name			,Gender,Position_ID	,Creat_Date)
+VALUES                  ("leminhhai@gmail.com"		,"lmhai"		,"Le Minh Hai"		,"M" ,1				,"2012/11/02");
     
 
 -- Question 7: Cấu hình 1 bài thi chỉ cho phép user tạo tối đa 4 answers cho mỗi question, trong đó có tối đa 2 đáp án đúng.
@@ -203,7 +203,27 @@ DELETE
 FROM Exam WHERE Exam_ID = 1;
 
 -- Question 10: Viết trigger chỉ cho phép người dùng chỉ được update, delete các question khi question đó chưa nằm trong exam nào
-
+DROP TRIGGER IF EXISTS ques_in_no_exam;
+DELIMITER $$
+CREATE TRIGGER ques_in_no_exam
+BEFORE
+UPDATE ON Question
+FOR EACH ROW
+BEGIN
+	DECLARE temp_count TINYINT;
+    SET temp_count =-1;
+    SELECT COUNT(1) INTO temp_count
+    FROM Exam_Question EQ
+    JOIN Question Q ON EQ.Question_ID = Q.Question_ID
+	WHERE EQ.Question_ID = NEW.Question_ID;
+    
+    IF (temp_count !=-1) THEN
+	SIGNAL SQLSTATE '12345'
+    SET MESSAGE_TEXT = 'YOU CANT UPDATE';
+    END IF;    	
+END $$
+DELIMITER ;
+UPDATE Question SET Content ="123" WHERE Question_ID=2;
 -- Question 12: Lấy ra thông tin exam trong đó:
 -- Duration <= 30 thì sẽ đổi thành giá trị "Short time"
 -- 30 < Duration <= 60 thì sẽ đổi thành giá trị "Medium time"
@@ -221,6 +241,21 @@ FROM Exam E;
 -- Nếu số lượng user trong group =< 5 thì sẽ có giá trị là few
 -- Nếu số lượng user trong group <= 20 và > 5 thì sẽ có giá trị là normal
 -- Nếu số lượng user trong group > 20 thì sẽ có giá trị là higher
-
+SELECT GA.Group_ID, COUNT(GA.Group_ID),
+CASE 
+	WHEN COUNT(GA.Group_ID)<2 THEN "FEW"
+    WHEN COUNT(GA.Group_ID)>=2 AND COUNT(GA.Group_ID)<4 THEN "NORMAL"
+    ELSE "HIGHER"
+    END AS the_number_user_amount
+FROM Group_Account GA
+GROUP BY GA.Group_ID;
 
 -- Question 14: Thống kê số mỗi phòng ban có bao nhiêu user, nếu phòng ban nào không có user thì sẽ thay đổi giá trị 0 thành "Không có User"
+SELECT D.Department_ID, COUNT(A.Department_ID),
+CASE 
+	WHEN COUNT(A.Department_ID) = 0 THEN "Không có User"
+    ELSE COUNT(A.Department_ID)
+    END AS SO_LUONG
+FROM Department D
+LEFT JOIN `Account` A ON D.Department_ID = A.Department_ID
+GROUP BY D.Department_ID
