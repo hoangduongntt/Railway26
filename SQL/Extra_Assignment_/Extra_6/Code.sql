@@ -9,7 +9,7 @@ CREATE PROCEDURE Remove_if_project()
 BEGIN
 DELETE
 FROM Projects 
-WHERE DATEDIFF(Project_CompleteOn,Project_Start_Date) >90;
+WHERE DATEDIFF(Project_CompleteOn, Project_Start_Date) >90;
 END $$
 DELIMITER ;
 Call Remove_if_project();

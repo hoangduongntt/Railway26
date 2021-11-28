@@ -2,6 +2,7 @@
 DROP DATABASE IF EXISTS Extra_assignment2;
 CREATE DATABASE Extra_assignment2;
 USE Extra_assignment2;
+
 CREATE TABLE Trainee(
 	TraineeID 			INT AUTO_INCREMENT PRIMARY KEY,
     Full_Name 			VARCHAR(50) NOT NULL,
@@ -17,7 +18,7 @@ CREATE TABLE Trainee(
 CREATE TABLE table1(
 	ID 					MEDIUMINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     Name 				VARCHAR(50),
-    Code 				CHAR(5),
+    Code 				CHAR(10),
     ModifiedDate 		DATETIME DEFAULT NOW()
 );
 

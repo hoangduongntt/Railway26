@@ -20,7 +20,8 @@ Employee_FistName	 VARCHAR (50) NOT NULL,
 Employee_HireDate 	DATE ,
 Employee_Status		 VARCHAR (50),
 Supervisior_ID		TINYINT UNSIGNED NOT NULL,
-Social_Security_Number TINYINT UNSIGNED NOT NULL
+Social_Security_Number TINYINT UNSIGNED NOT NULL,
+FOREIGN KEY (Supervisior_ID) REFERENCES Employee(Employee_ID) ON DELETE CASCADE
 );
 DROP TABLE IF EXISTS Project_Modules;
 CREATE TABLE Project_Modules(

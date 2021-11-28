@@ -84,7 +84,8 @@ ORDER BY COUNT(E.Department_Number) DESC ;
 SELECT D.Department_Number, D.Department_Name, E.Employee_Name
 FROM Employee_Table E
 JOIN Department D
-ON E.Department_Number = D.Department_Number;
+ON E.Department_Number = D.Department_Number
+ORDER BY  D.Department_Number;
 
 -- Question 6: Viết lệnh để lấy ra danh sách nhân viên có > 1 skills.
 -- Hướng dẫn: sử dụng DISTINCT
