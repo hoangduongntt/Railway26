@@ -48,12 +48,20 @@ public class TodoController {
     public ResponseEntity<ApiResponse> deleteTodo(@PathVariable long id) {
         return  ResponseEntity.ok().body(todoServiceIpl.deleteTodo(id));
     }
+
     @GetMapping ("/search")
     public  ResponseEntity<ApiResponse>  getByTaskName(@RequestParam String name){
-        if (name.length()==0){
-           return  getAllTodo();
-        }
-        List<Todo> todos = todoServiceIpl.fingByTaskName(name);
+        List<Todo> todos = todoServiceIpl.findTodoByName(name);
         return ResponseEntity.ok(new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS,todos))  ;
+    }
+    @GetMapping ("/searchDeleted")
+    public  ResponseEntity<ApiResponse>  getDeletedByName(@RequestParam String name){
+        List<Todo> todos = todoServiceIpl.findDeletedByName(name);
+        return ResponseEntity.ok(new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS,todos))  ;
+    }
+    @GetMapping ("/deletedList")
+    public ResponseEntity<ApiResponse>  getDeleteTodoList(){
+        List<Todo> deletedTodoList = todoServiceIpl.getDeleteTodoList();
+        return ResponseEntity.ok(new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS,deletedTodoList))  ;
     }
 }

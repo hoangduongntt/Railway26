@@ -11,6 +11,7 @@ public interface TodoService {
     public Todo getTodoById(Long id);
     public ApiResponse createAndUpdateTodo (Request request);
     public ApiResponse deleteTodo (long id);
-
-//    public Todo getTodoByTaskName(String name);
+    public List<Todo> getDeleteTodoList();
+    public List<Todo> findTodoByName(String name );
+    public List<Todo> findDeletedByName(String name );
 }

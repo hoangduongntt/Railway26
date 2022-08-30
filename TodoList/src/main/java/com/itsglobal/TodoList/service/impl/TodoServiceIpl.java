@@ -11,27 +11,24 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class TodoServiceIpl implements TodoService {
+    public static List<Todo> todoDeleteList = new ArrayList<>();
     @Autowired
     private TodoRepository todoRepository;
-
     @Autowired
     private ModelMapper modelMapper;
-
-
     public List<Todo> getAllTodo() {
-        return todoRepository.findAll();
+        return todoRepository.findAllAndDeleteFlag(Constants.DELETE_FALSE);
     }
     public Todo getTodoById(Long id) {
         return todoRepository.findByIdAndDeleteFlag(id, Constants.DELETE_FALSE)
                 .orElseThrow(() -> new RecordNotFoundException(Constants.RECORD_NOT_FOUND));
     }
-
-
     @Override
     public ApiResponse createAndUpdateTodo(Request request) {
         Todo todo = modelMapper.map(request , Todo.class);
@@ -47,27 +44,33 @@ public class TodoServiceIpl implements TodoService {
             return new ApiResponse(Constants.HTTP_CODE_200, Constants.UPDATE_SUCCESS, request);
         }
     }
-
     @Override
     public ApiResponse deleteTodo(long id) {
         Optional<Todo> todoDelete = todoRepository.findById(id);
         if (todoDelete.isEmpty()) {
             throw new RecordNotFoundException(Constants.RECORD_NOT_FOUND);
         }else {
-            todoRepository.deleteById(id);
+            Todo todo =  new Todo();
+            todo.setId(todoDelete.get().getId());
+            todo.setDescription(todoDelete.get().getDescription());
+            todo.setTaskName(todoDelete.get().getTaskName());
+            todo.setDeleteFlag(true);
+            todoRepository.save(todo);
             return new ApiResponse(Constants.HTTP_CODE_200, Constants.DELETE_SUCCESS, "");
         }
     }
 
-//    @Override
-//    public Todo getTodoByTaskName(String name) {
-//        Todo todo = todoDao.getTodoByTaskName(name);
-//        return  todo;
-//    }
+    @Override
+    public List<Todo> getDeleteTodoList() {return todoRepository.findAllAndDeleteFlag(Constants.DELETE_TRUE);
+    }
 
-    public List<Todo> fingByTaskName(String name) {
-        List<Todo> todos = todoRepository.findByTaskName(name);
+    public List<Todo> findTodoByName(String name ) {
+        List<Todo> todos = todoRepository.findByTaskName(name, Constants.DELETE_FALSE );
         return  todos;
     }
 
+    public List<Todo> findDeletedByName(String name ) {
+        List<Todo> todos = todoRepository.findByTaskName(name, Constants.DELETE_TRUE );
+        return  todos;
+    }
 }

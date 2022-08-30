@@ -14,7 +14,9 @@ public interface TodoRepository extends JpaRepository<Todo, Long> , JpaSpecifica
 
    Optional<Todo> findByIdAndDeleteFlag(Long id, Boolean deleteFlag);
 
-   @Query("SELECT t FROM Todo t WHERE t.taskName LIKE %?1%")
-   public List<Todo> findByTaskName(String name);
+   @Query("SELECT t FROM Todo t WHERE t.taskName LIKE %?1% AND t.deleteFlag = ?2" )
+   public List<Todo> findByTaskName(String name , Boolean deleteFlag);
+   @Query("SELECT t FROM Todo t WHERE t.deleteFlag = ?1")
+   public List<Todo> findAllAndDeleteFlag(Boolean deleteFlag);
 }
 
